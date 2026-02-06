@@ -1,7 +1,7 @@
 -- ============================================
 -- CREATE TABLES
 -- ============================================
- drop table customers;
+ drop table if exists customers;
 CREATE TABLE customers (
     customer_id INT PRIMARY KEY,
     email VARCHAR(100),
@@ -12,7 +12,7 @@ CREATE TABLE customers (
     INDEX idx_country (country)
 ) ENGINE=InnoDB;
 
-drop TABLE orders;
+drop TABLE if exists orders;
 CREATE TABLE orders (
     order_id INT PRIMARY KEY,
     customer_id INT,
@@ -25,7 +25,8 @@ CREATE TABLE orders (
     INDEX idx_order_date (order_date),
     INDEX idx_customer_date (customer_id, order_date)
 ) ENGINE=InnoDB;
-drop table order_items;
+
+drop table if exists order_items;
 CREATE TABLE order_items (
     item_id INT PRIMARY KEY,
     order_id INT,
