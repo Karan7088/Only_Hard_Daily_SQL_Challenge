@@ -1,104 +1,45 @@
-INSERT INTO inventory_events VALUES
--- ---------------------------------------
--- PRODUCT 101 – Warehouse 1
--- ---------------------------------------
+INSERT INTO ledger_entries 
+(entry_id, txn_id, account_id, entry_type, amount)
+VALUES
 
--- Day 1 purchase
-(1, 101, 1, '2026-02-10 09:00:00', 'PURCHASE', 100, NULL),
+-- ✅ CASE 1: VALID (Single debit = single credit)
+(1, 1001, 10, 'debit', 500.00),
+(2, 1001, 20, 'credit', 500.00),
 
--- Sale
-(2, 101, 1, '2026-02-10 11:00:00', 'SALE', 30, NULL),
+-- ✅ CASE 2: VALID (Multiple debit, single credit)
+(3, 1002, 10, 'debit', 300.00),
+(4, 1002, 11, 'debit', 200.00),
+(5, 1002, 20, 'credit', 500.00),
 
--- Adjustment negative
-(3, 101, 1, '2026-02-10 12:00:00', 'ADJUSTMENT', -10, NULL),
+-- ❌ CASE 3: MISSING CREDIT
+(6, 1003, 10, 'debit', 700.00),
 
--- Same timestamp tie case (order by event_id must matter)
-(4, 101, 1, '2026-02-10 12:00:00', 'SALE', 20, NULL),
+-- ❌ CASE 4: MISSING DEBIT
+(7, 1004, 20, 'credit', 400.00),
 
--- Negative dip intraday
-(5, 101, 1, '2026-02-10 13:00:00', 'SALE', 50, NULL),
+-- ❌ CASE 5: AMOUNT MISMATCH (sum mismatch)
+(8, 1005, 10, 'debit', 1000.00),
+(9, 1005, 20, 'credit', 900.00),
 
--- ---------------------------------------
--- Late arriving backdated event (inserted later but older time)
--- ---------------------------------------
-(6, 101, 1, '2026-02-10 10:00:00', 'SALE', 15, NULL),
+-- ❌ CASE 6: AMOUNT MISMATCH (multi debit/credit mismatch)
+(10, 1006, 10, 'debit', 200.00),
+(11, 1006, 11, 'debit', 300.00),
+(12, 1006, 20, 'credit', 400.00),
+(13, 1006, 21, 'credit', 50.00),
 
--- ---------------------------------------
--- Day 2 continues running balance
--- ---------------------------------------
-(7, 101, 1, '2026-02-11 09:00:00', 'PURCHASE', 40, NULL),
+-- ⚠️ CASE 7: Zero Amount (should still validate sum logic)
+(14, 1007, 10, 'debit', 0.00),
+(15, 1007, 20, 'credit', 0.00),
 
-(8, 101, 1, '2026-02-11 10:00:00', 'SALE', 20, NULL),
+-- ❌ CASE 8: Debit = Credit but multiple duplicate rows
+(16, 1008, 10, 'debit', 250.00),
+(17, 1008, 10, 'debit', 250.00),
+(18, 1008, 20, 'credit', 500.00),
 
--- Adjustment positive
-(9, 101, 1, '2026-02-11 12:00:00', 'ADJUSTMENT', 5, NULL),
+-- ❌ CASE 9: Credit greater than debit
+(19, 1009, 10, 'debit', 100.00),
+(20, 1009, 20, 'credit', 200.00),
 
--- ---------------------------------------
--- TRANSFER OUT from warehouse 1
--- ---------------------------------------
-(10, 101, 1, '2026-02-11 15:00:00', 'TRANSFER_OUT', 25, 9001),
-
--- ---------------------------------------
--- PRODUCT 101 – Warehouse 2
--- ---------------------------------------
-
--- Transfer IN must match reference_id
-(11, 101, 2, '2026-02-11 15:05:00', 'TRANSFER_IN', 25, 9001),
-
--- Warehouse 2 starts from zero but receives transfer
-(12, 101, 2, '2026-02-11 16:00:00', 'SALE', 5, NULL),
-
--- Negative dip same day in WH2
-(13, 101, 2, '2026-02-11 17:00:00', 'SALE', 30, NULL),
-
--- ---------------------------------------
--- PRODUCT 202 – Multiple warehouses
--- ---------------------------------------
-
--- Warehouse 1 purchase
-(14, 202, 1, '2026-02-10 08:00:00', 'PURCHASE', 200, NULL),
-
--- Big sale
-(15, 202, 1, '2026-02-10 09:00:00', 'SALE', 180, NULL),
-
--- Transfer OUT
-(16, 202, 1, '2026-02-10 10:00:00', 'TRANSFER_OUT', 10, 9002),
-
--- Transfer IN to warehouse 2
-(17, 202, 2, '2026-02-10 10:05:00', 'TRANSFER_IN', 10, 9002),
-
--- Warehouse 2 sale
-(18, 202, 2, '2026-02-10 11:00:00', 'SALE', 15, NULL),
-
--- ---------------------------------------
--- Multiple events exact same timestamp different event_id
--- ---------------------------------------
-(19, 202, 2, '2026-02-12 09:00:00', 'PURCHASE', 50, NULL),
-(20, 202, 2, '2026-02-12 09:00:00', 'SALE', 20, NULL),
-(21, 202, 2, '2026-02-12 09:00:00', 'SALE', 40, NULL),
-
--- ---------------------------------------
--- Large negative adjustment
--- ---------------------------------------
-(22, 202, 1, '2026-02-12 14:00:00', 'ADJUSTMENT', -50, NULL),
-
--- ---------------------------------------
--- Event out of chronological insert order
--- ---------------------------------------
-(23, 101, 1, '2026-02-09 23:00:00', 'PURCHASE', 60, NULL),
-
--- ---------------------------------------
--- Zero quantity edge case
--- ---------------------------------------
-(24, 101, 1, '2026-02-12 08:00:00', 'ADJUSTMENT', 0, NULL),
-
--- ---------------------------------------
--- Multiple transfers same day same product
--- ---------------------------------------
-(25, 101, 1, '2026-02-12 09:00:00', 'TRANSFER_OUT', 10, 9003),
-(26, 101, 2, '2026-02-12 09:05:00', 'TRANSFER_IN', 10, 9003),
-
--- ---------------------------------------
--- Extreme edge: sale before any purchase (should go negative immediately)
--- ---------------------------------------
-(27, 303, 1, '2026-02-10 09:00:00', 'SALE', 10, NULL);
+-- ❌ CASE 10: Large precision mismatch
+(21, 1010, 10, 'debit', 100.005),
+(22, 1010, 20, 'credit', 100.004);

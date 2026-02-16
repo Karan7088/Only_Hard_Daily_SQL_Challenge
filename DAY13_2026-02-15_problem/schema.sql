@@ -1,11 +1,9 @@
-DROP TABLE IF EXISTS inventory_events;
-
-CREATE TABLE inventory_events (
-    event_id BIGINT PRIMARY KEY,
-    product_id INT NOT NULL,
-    warehouse_id INT NOT NULL,
-    event_time DATETIME NOT NULL,
-    event_type VARCHAR(20) NOT NULL,
-    quantity INT NOT NULL,
-    reference_id BIGINT NULL
+drop table if exists ledger_entries;
+CREATE TABLE ledger_entries (
+    entry_id BIGINT PRIMARY KEY,
+    txn_id BIGINT NOT NULL,
+    account_id INT NOT NULL,
+    entry_type VARCHAR(10) CHECK (entry_type IN ('debit','credit')),
+    amount DECIMAL(15,2) NOT NULL,
+    entry_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
