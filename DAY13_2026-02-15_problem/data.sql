@@ -1,4 +1,4 @@
-INSERT INTO ledger_entries 
+jINSERT INTO ledger_entries 
 (entry_id, txn_id, account_id, entry_type, amount)
 VALUES
 
@@ -27,12 +27,7 @@ VALUES
 (12, 1006, 20, 'credit', 400.00),
 (13, 1006, 21, 'credit', 50.00),
 
--- ⚠️ CASE 7: Zero Amount (should still validate sum logic)
-(14, 1007, 10, 'debit', 0.00),
-(15, 1007, 20, 'credit', 0.00),
-
--- ❌ CASE 8: Debit = Credit but multiple duplicate rows
-(16, 1008, 10, 'debit', 250.00),
+-- ⚠️ CASE 7: Zero Amount (should still validate sum loj
 (17, 1008, 10, 'debit', 250.00),
 (18, 1008, 20, 'credit', 500.00),
 
