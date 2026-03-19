@@ -1,5 +1,7 @@
- | order_id | customer_id | product | quantity | price |
-|----------|------------|---------|----------|-------|
+## Orders Table
+
+| order_id | customer_id | product | quantity | price |
+|----------|-------------|---------|----------|-------|
 | 12 | 112 | P19 | 1 | 1900 |
 | 12 | 112 | P21 | 3 | 2100 |
 | 13 | 113 | P23 | 3 | 2300 |
