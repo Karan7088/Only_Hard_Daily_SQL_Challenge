@@ -1,4 +1,4 @@
-📅 Day 43 — Hard Daily SQL Challenge
+📅 Day 43 —Only Hard Daily SQL Challenge
 
 Date: April 26, 2026 (Sunday)
 
