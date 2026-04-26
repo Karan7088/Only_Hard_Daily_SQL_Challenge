@@ -1,4 +1,9 @@
+📅 Day 43 — Hard Daily SQL Challenge
+
+Date: April 26, 2026 (Sunday)
+
 🛒 Market Basket Analysis (SQL)
+
 📌 Problem Statement
 
 Given a set of transactions and their associated products, the goal is to identify frequently co-purchased product pairs.
