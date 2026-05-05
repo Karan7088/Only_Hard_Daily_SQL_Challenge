@@ -1,6 +1,6 @@
 # 📅 2026-05-04
 
-# 🔥 Day 50 — Only Hard Daily SQL Challenge
+# 🔥 Day 51 — Only Hard Daily SQL Challenge
 
 ---
 
