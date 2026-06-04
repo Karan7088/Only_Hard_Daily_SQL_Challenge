@@ -1,4 +1,4 @@
- DROP TABLE IF EXISTS badge_logs;
+DROP TABLE IF EXISTS badge_logs;
 DROP TABLE IF EXISTS vpn_logs;
 DROP TABLE IF EXISTS meeting_room_logs;
 
